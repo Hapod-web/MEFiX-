@@ -1,0 +1,245 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Мефикс</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E🐯%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#0b0f1a;--c:#141b2b;--b:#26304a;--t:#f2f4f8;--m:#8f9ab3;--a:#e11d48;--g:#22c55e;box-sizing:border-box}
+*{box-sizing:inherit}body{margin:0;background:var(--bg);color:var(--t);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:env(safe-area-inset-top) 12px 90px}
+h1{font-size:20px;margin:14px 2px}.tabs{display:flex;gap:6px;overflow-x:auto}.tabs button,.chip,.btn{border:1px solid var(--b);background:var(--c);color:var(--t);border-radius:14px;padding:10px 14px;font:inherit;cursor:pointer}
+.tabs button.on,.chip.on,.btn{background:var(--a);border-color:var(--a);font-weight:600}.btn{width:100%;margin-top:12px;padding:14px}
+.card{background:var(--c);border:1px solid var(--b);border-radius:16px;padding:14px;margin:12px 0}.m{color:var(--m);font-size:14px}.row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.ex{border-top:1px solid var(--b);padding:12px 0}.ex:first-of-type{border:0}.ex b{font-size:17px}.big{color:var(--a);font-weight:700}
+.sets{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}.sets button{min-width:54px;height:46px;border-radius:12px;border:1px solid var(--b);background:#0e1424;color:var(--t);font:inherit;font-weight:600}
+.sets button.d{background:var(--g);border-color:var(--g);color:#04210e}details{margin-top:6px;color:var(--m)}summary{cursor:pointer;color:var(--t)}
+.bar{height:8px;background:var(--b);border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;background:var(--a)}
+input,select,textarea{background:#0e1424;color:var(--t);border:1px solid var(--b);border-radius:10px;padding:10px;font:inherit;width:100%;margin:4px 0 8px}
+#tm{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));background:var(--a);border-radius:16px;padding:16px;text-align:center;font-weight:700;display:none;z-index:9}
+.day{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--b);cursor:pointer}.day.t{color:var(--a);font-weight:700}
+
+:root{--bg:#120d0a;--c:#1d1511;--b:#3a2a1e;--t:#fff4e8;--m:#b59a85;--a:#ff7a1a;--g:#35c46b}
+body{max-width:560px;margin:auto;padding-bottom:100px}
+.hd{display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,#2e1808,#1d1511);border:1px solid var(--b);border-radius:20px;padding:12px;margin:12px 0}
+.hd svg{flex:none;animation:bob 3s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-4px)}}
+.lg{font:800 18px/1.1 system-ui;letter-spacing:2px;color:var(--a)}.bub{font-size:14px;margin:4px 0}
+.st{display:flex;gap:8px}.st>div{flex:1;font-size:11px;color:var(--m)}.st .bar{height:6px;margin-top:3px}
+.tabs{position:fixed;left:0;right:0;bottom:0;display:flex;background:#120d0af2;border-top:1px solid var(--b);padding:6px 6px calc(6px + env(safe-area-inset-bottom));z-index:8;gap:0}
+.tabs button{flex:1;border:0;background:none;font-size:11px;padding:4px 0;color:var(--m);border-radius:10px}.tabs button b{display:block;font-size:20px}
+.tabs button.on{background:none;color:var(--a);font-weight:700}#tm{bottom:auto;top:calc(8px + env(safe-area-inset-top));padding:10px;font-size:14px;opacity:.96}
+h2{font-size:14px;color:var(--a);margin:24px 4px 0;text-transform:uppercase;letter-spacing:1px}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.gal img,.cmp img{width:100%;border-radius:10px}.gal img{aspect-ratio:3/4;object-fit:cover}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}ol{padding-left:20px;margin:8px 0;color:var(--t)}ol li{margin:4px 0}
+.badge{opacity:.35}.badge.on{opacity:1;background:var(--a);color:#000}
+</style></head><body><div id="hd"></div><div id="main"></div><div class="tabs" id="tabs"></div><div id="tm" onclick="skip()"></div>
+<script>
+const $=s=>document.querySelector(s);
+const X={
+push:["Отжимания","Упор лёжа, руки чуть шире плеч, тело — прямая линия. Грудью почти до пола, локти под 45°. Вверх без прогиба в пояснице.","r"],
+dec:["Отжимания, ноги на стуле","Ноги на стуле, руки на полу шире плеч. Опускайся грудью почти до пола, вверх мощно. Бьёт верх груди и плечи.","r"],
+dia:["Отжимания ромбиком","Ладони под грудью, пальцы образуют ромб. Локти идут вдоль корпуса. Работает трицепс.","r"],
+pau:["Отжимания с паузой","Опустись и замри у пола на 2 сек, затем вверх без рывка. Тяжелее обычных: повторов меньше, но жжёт сильнее.","r"],
+dip:["Обратные отжимания от стула","Руки на краю стула за спиной, ноги вытянуты. Опускай таз до угла 90° в локтях, спина близко к стулу. Вверх — выпрями руки.","r"],
+bpress:["Резинка: жим от груди","Резинка за спиной под лопатками, кисти у груди. Жми вперёд до выпрямления рук, пауза 1 сек, медленно назад.","r"],
+brow:["Резинка: тяга к поясу","Сядь, ноги вперёд, резинка на стопах. Тяни концы к поясу, сводя лопатки, пауза 1 сек.","r"],
+bcurl:["Резинка: сгибания на бицепс","Встань на резинку, локти прижаты к бокам. Сгибай руки к плечам, вниз — медленно, 3 сек.","r"],
+blat:["Резинка: руки в стороны","Встань на резинку, подними руки в стороны до уровня плеч, локти чуть согнуты. Вниз медленно.","r"],
+pull:["Подтягивания","Хват чуть шире плеч, тянись подбородком выше перекладины, вниз медленно до выпрямленных рук.","r"],
+bag:["Тяга рюкзака в наклоне","Рюкзак с книгами или бутылками. Наклон ~45°, спина прямая. Тяни рюкзак к животу, сводя лопатки, пауза 1 сек.","r"],
+sup:["«Суперман»","Лёжа на животе, руки вперёд. Одновременно подними руки и ноги, замри на 2 сек, опусти. Качает спину и поясницу.","r"],
+sq:["Приседания","Ноги на ширине плеч. Таз назад и вниз до параллели бёдер с полом, колени по линии носков, пятки на полу.","r"],
+bul:["Болгарские выпады","Задняя нога на стуле, передняя шагом вперёд. Опускай заднее колено к полу, корпус прямой. Повторы — на каждую ногу.","r"],
+bri:["Ягодичный мостик","Лёжа на спине, колени согнуты. Толкни пятками, подними таз до прямой линии плечи–колени, сожми ягодицы на 1 сек.","r"],
+lun:["Выпады назад","Шаг назад, заднее колено почти до пола, переднее не заходит за носок. Меняй ноги. Повторы — на каждую ногу.","r"],
+cal:["Подъёмы на носки","Встань на край книги или ступеньки, поднимайся на носки до максимума, пауза вверху, вниз медленно.","r"],
+jsq:["Приседания с прыжком","Присед и взрывной прыжок вверх. Приземляйся мягко на носки с согнутыми коленями.","r"],
+pike:["Отжимания «горка»","Таз высоко, тело буквой V. Опускай макушку к полу между рук. Нагрузка на плечи.","r"],
+tap:["Планка с касанием плеч","Упор на прямых руках, ноги шире плеч. Касайся ладонью противоположного плеча, таз не качается.","r"],
+plank:["Планка","Упор на предплечья, тело — прямая линия. Пресс и ягодицы напряжены, поясница не провисает. Дыши ровно.","t"],
+lr:["Подъёмы ног лёжа","Лёжа, поясница прижата к полу. Подними прямые ноги до 90°, опускай медленно, не касаясь пола.","r"],
+bic:["Велосипед","Лёжа, руки у висков. Локоть тянется к противоположному колену, вторая нога прямая. Шею не дёргай.","t"],
+rus:["Русские скрутки","Сидя, корпус назад на 45°, ноги подняты. Касайся пола по сторонам от бёдер, вращая корпус.","t"],
+hol:["«Лодочка»","Лёжа, поясница прижата к полу. Руки и ноги вытянуты и подняты на 20 см. Держи позу.","t"],
+rc:["Обратные скручивания","Лёжа, ноги согнуты вверх. Подкручивай таз к рёбрам, отрывая его от пола. Вниз медленно.","r"],
+vup:["V-подъёмы","Лёжа, одновременно поднимай прямые ноги и корпус, тянись руками к стопам.","r"],
+sp:["Боковая планка","На боку, упор на предплечье, таз вверх, тело прямое. Время — на каждую сторону.","t"],
+mc:["Скалолаз","Упор лёжа, быстро подтягивай колени к груди по очереди. Таз ровно, не подпрыгивает.","t"],
+bur:["Бёрпи","Присед, упор лёжа, отжимание, прыжок вверх с хлопком. Без пауз.","r"]};
+const CY=['A','E','B','A','E','R'],NM={A:'Грудь + трицепс',B:'Спина + бицепс',C:'Ноги + ягодицы',D:'Плечи + кор',E:'Пресс + кардио',R:'Отдых'};
+const T={A:[['dec',4,15],['push',4,20],['dia',3,12],['bpress',3,15],['dip',3,15]],B:[['pull',4,8],['brow',4,15],['bag',4,15],['sup',3,15],['bcurl',3,15]],
+C:[['sq',4,25],['bul',4,12],['bri',4,20],['lun',3,15],['jsq',3,15],['cal',4,25]],D:[['pike',4,12],['blat',3,15],['tap',3,20],['pau',3,10]],E:[['bur',4,12],['mc',4,40],['jsq',3,20]]};
+T.A2=[['pau',4,8],['dia',4,15],['dec',4,15],['push',3,20],['dip',3,15]];
+const AB=[['plank',3,45],['lr',3,15],['bic',3,30],['rus',3,30],['hol',3,25],['rc',3,15],['vup',3,12],['sp',2,30],['mc',3,40]];
+const SUB={bpress:'pau',brow:'bag',bcurl:'bag',blat:'pike',pull:'bag'},NEED={bpress:'band',brow:'band',bcurl:'band',blat:'band',pull:'bar'};
+const LV={light:'Лёгкий',hard:'Жёсткий',max:'МАКС'};
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const today=iso(new Date());const D0={start:'2026-10-05',days:19,trip:'2026-10-22',band:true,bar:false,rest:60,wake:'07:00',sleep:'23:30',log:{},body:{},pl:{},ph:[]};let S=JSON.parse(JSON.stringify(D0));
+try{Object.assign(S,JSON.parse(localStorage.getItem('mefix')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('mefix',JSON.stringify(S));return 1}catch(e){alert('Память браузера заполнена: удали старые фото.');return 0}};
+const MO=['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'],WD=['вс','пн','вт','ср','чт','пт','сб'];
+const fd=d=>{const x=new Date(d+'T00:00');return x.getDate()+' '+MO[x.getMonth()]+', '+WD[x.getDay()]};
+let tab=0,cur=today<S.start?S.start:today,Q={e:'mid',s:'b',m:'n',v:'n',f:'ok',t:45};
+const idx=d=>Math.round((new Date(d+'T00:00')-new Date(S.start+'T00:00'))/864e5);
+const addD=n=>{const d=new Date(S.start+'T00:00');d.setDate(d.getDate()+n);return iso(d)};
+function build(i,q){
+ const t=CY[((i%6)+6)%6];if(t=='R')return{t,ex:[],lv:'rest'};
+ const s=({low:-1,mid:0,hi:1}[q.e]||0)+(q.s=='a'?-1:0)+(q.m=='h'?-1:0)+(q.v=='y'?-1:0)+(q.f=='low'?-1:0);
+ const lv=addD(i)>=S.trip||s<=-3?'light':s>=0?'max':'hard',k=lv=='light'?.8:lv=='max'?1.1:1;
+ const bt=(t=='A'&&i%6==3)?T.A2:T[t],base=q.t==30?bt.slice(0,3):bt,na=({30:2,45:3,60:4}[q.t]||3)+(t=='E'?1:0);
+ const ab=[...Array(na)].map((_,j)=>AB[(i*3+j)%AB.length]),seen={},ex=[];
+ base.concat(ab).forEach(([id,n,v],j)=>{if(NEED[id]&&!S[NEED[id]])id=SUB[id];if(seen[id])return;seen[id]=1;
+  if(lv=='light')n=Math.max(2,n-1);else if(lv=='max'&&j<3)n++;ex.push({id,n,v:Math.round(v*k)})});
+ return{t,ex,lv};}
+function pk(k,v){Q[k]=isNaN(v)?v:+v;render()}
+const ch=(k,o)=>'<div class="row">'+o.map(([v,l])=>`<button class="chip ${Q[k]==v?'on':''}" onclick="pk('${k}','${v}')">${l}</button>`).join('')+'</div>';
+function gen(){const L=S.log[cur]=S.log[cur]||{};L.q={...Q};L.p=build(idx(cur),Q);L.d={};save();render()}
+function redo(){delete S.log[cur];render()}
+function tg(e,s){const L=S.log[cur],k=e+'_'+s;if(L.d[k]){delete L.d[k]}else{L.d[k]=1;rest(L.p.lv=='max'?Math.max(30,S.rest-15):S.rest)}save();render()}
+let tt=0,ti;function rest(n){clearInterval(ti);tt=n;draw();ti=setInterval(()=>{tt--;if(tt<=0){clearInterval(ti);navigator.vibrate&&navigator.vibrate(400)}draw()},1000)}
+function draw(){const e=$('#tm');e.style.display=tt>0?'block':'none';e.textContent='Отдых '+tt+' с — тап, чтобы пропустить'}
+function skip(){clearInterval(ti);tt=0;draw()}
+function tabsR(){$('#tabs').innerHTML=['Опрос','План','Сон/вес','Настройки'].map((n,i)=>`<button class="${tab==i?'on':''}" onclick="tab=${i};render()">${n}</button>`).join('')}
+function opros(){
+ const i=idx(cur),L=S.log[cur],nav=`<div class="card row" style="justify-content:space-between;align-items:center"><button class="chip" onclick="mv(-1)">‹</button><b>${fd(cur)}${cur==today?' · сегодня':''} · день ${i+1}</b><button class="chip" onclick="mv(1)">›</button></div>`;
+ if(i>=0&&CY[i%6]=='R')return nav+`<div class="card"><b>Отдых</b><p>Прогулка 30 мин, растяжка 10 мин, 2–3 л воды, сон 8 часов. Мышцы растут именно сейчас.</p></div>`;
+ if(!L||!L.p)return nav+`<div class="card"><b>Опрос перед тренировкой</b><p class="m">Ответь честно: от этого зависят нагрузка и отдых.</p>
+ <div class="m">Как ты себя чувствуешь прямо сейчас?</div>${ch('e',[['low','Очень устал'],['mid','Нормально'],['hi','Бодрый']])}
+ <div class="m">Сколько спал прошлой ночью?</div>${ch('s',[['a','Меньше 6 ч'],['b','6–7 ч'],['c','7 ч и больше']])}
+ <div class="m">Как мышцы после прошлой тренировки?</div>${ch('m',[['n','Не болят'],['m','Немного ноют'],['h','Сильно болят']])}
+ <div class="m">Был сегодня волейбол?</div>${ch('v',[['n','Нет'],['y','Да']])}
+ <div class="m">Что сегодня с едой?</div>${ch('f',[['ok','Ел как обычно'],['fast','Фастфуд или сладкое'],['low','Почти не ел']])}
+ <div class="m">Сколько времени есть на тренировку?</div>${ch('t',[['30','30 мин'],['45','45 мин'],['60','60 мин']])}
+ <button class="btn" onclick="gen()">Составить тренировку</button></div>`;
+ const p=L.p,tot=p.ex.reduce((a,e)=>a+e.n,0),dn=Object.keys(L.d).length;
+ return nav+`<div class="card"><b>${NM[p.t]}</b> · уровень <span class="big">${LV[p.lv]}</span><div class="bar" style="margin:10px 0"><i style="width:${dn/tot*100}%"></i></div><div class="m">Выполнено ${dn} из ${tot} подходов. Тап по подходу — он засчитан и запускается отдых.</div>`+
+ p.ex.map((e,n)=>{const x=X[e.id],u=x[2]=='t'?'сек':'повт.';return `<div class="ex"><b>${n+1}. ${x[0]}</b><div class="big">${e.n} × ${e.v} ${u}</div><details ${n<1?'open':''}><summary>Как делать + схема</summary>${img(e.id)}${fmt(x[1])}</details><div class="sets">${[...Array(e.n)].map((_,s)=>`<button class="${L.d[n+'_'+s]?'d':''}" onclick="tg(${n},${s})">${s+1}</button>`).join('')}</div></div>`}).join('')+
+ `${tips(L.q)}<p class="m">Техника важнее счёта. Боль в суставах или спине — стоп. Белок ~130 г в день при весе 80 кг.</p></div><button class="chip" onclick="redo()">Пересоставить</button>`}
+function mv(n){const d=new Date(cur+'T00:00');d.setDate(d.getDate()+n);cur=iso(d);render()}
+function plan(){return `<div class="card"><b>${S.days} дней до Архыза</b>`+[...Array(S.days)].map((_,i)=>{const d=addD(i),L=S.log[d],t=CY[i%6],ok=L&&L.p&&L.p.ex.length&&Object.keys(L.d).length==L.p.ex.reduce((a,e)=>a+e.n,0);
+ return `<div class="day ${d==today?'t':''}" onclick="cur='${d}';tab=0;render()"><span>${i+1}. ${d.slice(5)} · ${NM[t]}</span><span>${ok?'✅':''}</span></div>`}).join('')+'</div>'}
+function body(){const b=S.body[today]||{},ks=Object.keys(S.body).sort().slice(-14);
+ return `<div class="card"><b>Сегодня</b><div class="m">Вес, кг</div><input id="w" type="number" step="0.1" value="${b.w||''}"><div class="m">Сон, часов</div><input id="sl" type="number" step="0.5" value="${b.s||''}"><button class="btn" onclick="sb()">Сохранить</button></div>
+ <div class="card"><b>История</b>${ks.map(k=>`<div class="day"><span>${k.slice(5)}</span><span>${S.body[k].w||'—'} кг · сон ${S.body[k].s||'—'} ч</span></div>`).join('')||'<p class="m">Пока пусто. Взвешивайся утром в одно и то же время.</p>'}</div>`}
+function sb(){S.body[today]={w:$('#w').value,s:$('#sl').value};save();render()}
+function sets(){return `<div class="card"><b>Настройки</b><div class="m">Старт программы</div><input type="date" id="st" value="${S.start}"><div class="m">Дней до Архыза</div><input type="number" id="dy" value="${S.days}">
+ <label><input type="checkbox" id="bd" ${S.band?'checked':''} style="width:auto"> Есть резинка</label><br><label><input type="checkbox" id="br" ${S.bar?'checked':''} style="width:auto"> Есть турник</label>
+ <div class="m">Отдых между подходами, сек</div><input type="number" id="rs" value="${S.rest}"><button class="btn" onclick="ss()">Сохранить</button><button class="chip" style="margin-top:12px" onclick="if(confirm('Стереть всё?')){S={start:today,days:20,band:true,bar:false,rest:60,log:{},body:{}};save();render()}">Сбросить данные</button></div>`}
+function ss(){S.start=$('#st').value||today;S.days=+$('#dy').value||20;S.band=$('#bd').checked;S.bar=$('#br').checked;S.rest=+$('#rs').value||60;S.log={};save();tab=0;render()}
+function render(){tabsR();$('#main').innerHTML=[opros,plan,body,sets][tab]()}
+
+const P={push:[[[118,26],[105,32],[75,42],[45,53],[15,64],[105,49],[105,66]],[[118,52],[105,56],[75,57],[45,60],[15,64],[95,61],[105,66]]],
+plank:[[[118,42],[105,46],[75,50],[45,56],[15,64],[100,64],[122,64]]],
+lr:[[[15,62],[28,64],[70,64],[95,64],[120,64],[45,64],[60,64]],[[15,62],[28,64],[70,64],[70,42],[70,20],[45,64],[60,64]]]};
+const PM={push:'push',pau:'push',dia:'push',dec:'push',plank:'plank',tap:'plank',lr:'lr',vup:'lr'};
+function img(id){const p=P[PM[id]];if(!p)return'';const L=(u,v)=>`<line x1="${u[0]}" y1="${u[1]}" x2="${v[0]}" y2="${v[1]}"/>`;
+ return '<div class="row">'+p.map(([h,s,i,k,a,e,w])=>`<svg viewBox="0 0 135 80" width="48%" style="background:#fff;border-radius:10px" stroke="#111" stroke-width="4" stroke-linecap="round" fill="none"><circle cx="${h[0]}" cy="${h[1]}" r="7"/>${L(s,i)+L(i,k)+L(k,a)+L(s,e)+L(e,w)}<line x1="5" y1="68" x2="130" y2="68" stroke="#aaa" stroke-width="2"/></svg>`).join('')+'</div><div class="m">'+(p.length>1?'Слева старт, справа движение.':'Держи эту позу.')+'</div>'}
+const dt=(t,b)=>`<details class="card"><summary><b>${t}</b></summary>${b}</details>`;
+function style(){return dt('Одежда: что работает на твою фигуру',`<p>Рост 177, размер 50–52. Брать лучше по плечам: шов должен лежать на плечевой кости, рукав до середины бицепса.</p><p><b>Грудь.</b> Облегающее на груди подчёркивает её. Выбирай плотный хлопок и пике (как твоё поло), прямой крой, тёмные тона, футболки и худи с чуть свободной грудью. Сверху — слой: рубашка, овершот или бомбер. Светлое тонкое трикотажное облегающее — мимо.</p><p><b>Усадка.</b> Бери хлопок с 3–5% эластана или стирай при 30° и не суши в сушилке. Размер 50 с запасом по талии — норм, если плечи сидят.</p><p class="m">Если есть уплотнение под соском, боль или асимметрия, покажись хирургу или эндокринологу. Мышцы груди этот вопрос чаще всего решают сами.</p>`)+
+ dt('Обувь на зиму (стопа 29 см)',`<p>29 см ≈ EU 45–46. Мерь вечером, запас 0,5–1 см, сверяйся с таблицей бренда.</p><p><b>При плоскостопии</b> нужны жёсткий задник, поддержка свода, нормальная стелька. Кеды (Vans, Converse) с плоской подошвой — мимо. Нужна ортопедическая стелька: подбирает ортопед по твоей степени.</p><p>Под стиль Кая и Скриптонита: <b>ASICS</b> (Gel-Kayano, Gel-Venture), <b>Salomon</b> (XT-6, ACS, версии с мембраной), <b>New Balance</b> (574, 530, 9060), <b>Nike</b> (Pegasus Trail GTX, Air Max) — всё в тёмной гамме. На зиму смотри мембрану (Gore-Tex) и грипп подошвы. Актуальные модели 2026/27 я в приложение вшить не могу: спроси меня в чате, найду свежее.</p>`)+
+ dt('Стиль под твою музыку',`<p>9mice, Kai Angel, Yasmi, Скриптонит — это тёмная палитра и спокойный уличный силуэт. Основа: чёрный, графит, серый, один акцент. Прямые или карго-штаны, худи, бомбер, плотные футболки. Цепочка и часы у тебя уже подходят. Оверсайз бери «на размер больше», не «в два»: на твоих плечах лучше смотрится аккуратный крой.</p>`)+
+ dt('Белые поло на неделю (Ozon / WB)',`<p>Нужно 3 штуки на ротацию. Поиск: «поло белое пике мужское плотное» и «поло школьное белое подростковое эластан». Фильтры: размер 50 (если обхват груди больше 102 см, то 52), рейтинг от 4,7.</p><p><b>Чтобы не подчёркивало грудь:</b> плотное пике от 200 г/м², хлопок 95–97% и эластан 3–5%, жёсткий воротник, планка на 3 пуговицы, без кармана и крупных логотипов, длина до середины ширинки. Тонкий трикотаж и «спортивный» полиэстер облегают и просвечивают.</p><p>Под низ надень тонкую футболку телесного цвета: белая под белой просвечивает. В отзывах ищи «просвечивает» и «села после стирки», смотри фото покупателей. Стирка 30°, без сушилки.</p>`)+
+ dt('Рост',`<p>Формула по родителям даёт ~176,5 см ±8 для сына: (164 + 176 + 13) / 2. Ты уже 177 и, возможно, ещё растёшь. Рост нельзя «тянуть» упражнениями и добавками. Но можно не потерять потенциал: сон 8–9 ч, белок, овощи, витамин D по анализу, осанка. Хочешь точный прогноз — спроси педиатра про рентген кисти (костный возраст).</p>`)}
+const HS=[['Флоу: пробор по центру, чёлка шторками','Чёлка расходится на пробор, виски аккуратно подрезаны.','Идеально под отращивание, смягчает лицо.','Нужна укладка и сухой текстурирующий спрей.',['овальное','квадратное','длинное']],
+['Текстурный начёс вверх','Короткие виски, сверху 6–8 см, текстура и объём вверх.','Вытягивает лицо, выглядит собранно.','Укладка каждый день, выбивается на ветру.',['овальное','круглое','квадратное']],
+['Мид-тейпер с текстурой сверху','Плавный переход на висках, сверху 5–7 см.','Не требует много ухода, подходит всем.','Не растёт «в тему» флоу, нужна стрижка раз в 3–4 недели.',['овальное','круглое','квадратное','длинное']],
+['Средняя длина с волной','Длина до ушей и ниже, свободная волна без чёлки на глаза.','Расслабленный образ под стиль рэпа.','Нужна форма раз в 6–8 недель, иначе «шапка».',['овальное','длинное']]];
+HS.push(['Флаффи: пушистая чёлка','Сверху 8–10 см, виски коротко (low taper), чёлка лёгкая и объёмная до бровей.','Мягкий образ как на твоих референсах, хорошо с очками.','Нужна сушка феном на объём и морская соль, иначе осядет.',['овальное','квадратное','длинное']],['Волнистая чёлка','Сверху 8–10 см с волной, виски и затылок плавно коротко.','Выглядит естественно и свежо, как у парня в бежевой футболке.','У тебя волос прямее: волну даст только текстура, диффузор и крем. Химзавивка только с согласия родителей и мастера.',['овальное','круглое','квадратное']]);
+let H={f:'овальное',s:0};
+function hp(k,v){H[k]=isNaN(v)?v:+v;render()}
+function hair(){const h=HS[H.s],ok=h[4].includes(H.f),pr=`Возьми моё фото как референс. Измени только причёску на: ${h[0]}. ${h[1]} Лицо, очки, кожу, одежду и фон не менять, цвет волос сохранить, результат реалистичный, как обычное фото с телефона.`;
+ return `<div class="card"><b>Какая причёска подойдёт</b><p class="m">Приложение не смотрит на фото, оценку по справочнику строит из формы лица, которую выберешь ты.</p><div class="m">Форма лица</div><div class="row">${['овальное','круглое','квадратное','длинное'].map(f=>`<button class="chip ${H.f==f?'on':''}" onclick="hp('f','${f}')">${f}</button>`).join('')}</div><div class="m">Причёска</div><div class="row">${HS.map((x,i)=>`<button class="chip ${H.s==i?'on':''}" onclick="hp('s',${i})">${x[0].split(':')[0]}</button>`).join('')}</div></div>
+ <div class="card"><b>${h[0]}</b> — <span class="big">${ok?'подходит':'с оговорками'}</span><p>${h[1]}</p><p>✅ ${h[2]}</p><p>⚠️ ${h[3]}</p><div class="m">Промпт для Grok или другой нейросети. Загрузи туда свою фотку и вставь:</div><textarea id="pr" rows="5">${pr}</textarea><button class="btn" onclick="$('#pr').select();navigator.clipboard&&navigator.clipboard.writeText($('#pr').value)">Скопировать</button></div>`}
+const tips=q=>(q.v=='y'?'<p class="big">Волейбол уже был: нагрузка снижена.</p>':'')+(q.f=='low'?'<p class="big">Ты почти не ел: съешь что-то лёгкое за час до тренировки (банан, бутерброд), иначе сил не будет.</p>':'')+(q.f=='fast'?'<p class="m">Фастфуд был, это нормально. Не наказывай себя: попей воды, пройдись 10 минут, дальше ешь как обычно.</p>':'');
+function life(){return dt('Брекеты: с понедельника',`<p><b>После каждой еды</b> 3–5 минут: прополоскать рот и почистить зубы и замки. Утром и вечером 2–3 минуты ортодонтической щёткой и ёршиками для промежутков под дугой. Ирригатор сильно помогает. Положи щётку и ёршик в рюкзак.</p><p>Первые 3–5 дней зубы ноют: ешь мягкое, на замок, который трёт губу, клади воск. Не грызи орехи, ириски, семечки, лёд, жвачку, целые яблоки и морковь. Газировку и сладкое сократи: вокруг замков остаются пятна.</p><p><b>Волейбол:</b> спроси ортодонта про капу для брекетов, мяч в лицо с брекетами опасен для губ. Ходи на все приёмы, от этого зависит срок лечения.</p>`)+
+ dt('Еда на прогулках с девушкой',`<p>Отказываться не нужно, ешь вместе с ней, но выбирай умнее. В «Вкусно — и точка»: бургер или ролл без доп. сыра и соуса, вода или чай без сахара вместо колы, картошка одна на двоих. В Сицилии: меньше темпуры и сливочного сыра, больше простых роллов с рыбой и овощами.</p><p>Ешь медленно и разговаривай, наедаешься быстрее. Один выход в неделю форму не ломает, ломает ежедневное «все ели». Если съел много, отметь «Фастфуд» в опросе и продолжай как обычно.</p>`)+
+ dt('Курсы: цены и нагрузка',`<p>Из твоих скринов: математика Школково 49 410 ₽, информатика 37 058 ₽, ЕГЭленд 59 765 ₽ за предмет. Все три это около 146 тыс. ₽, решай с родителями.</p><p>Нагрузка: математика 4–6 занятий в неделю, информатика 5 вебинаров, ЕГЭленд 8–12 в месяц. Все три плюс школа и уроки физически не влезут. Записи есть, так что смотреть вживую не обязательно.</p><p>Начни с одного предмета на месяц («Подписка на месяц») и проверь, потянешь ли. Профильная математика важнее остального. Информатику бери, если она нужна для твоих вузов. В описании курса написано и «ЕГЭ 2028», и «доступ до ЕГЭ 2027»: уточни в поддержке дату окончания доступа.</p>`)+
+ dt('Подработка',`<p>Время есть на 3–5 часов в неделю, в основном в выходные. Подходит то, что можно делать дома: монтаж коротких видео, оформление в Canva, помощь малому бизнесу с соцсетями, репетиторство для младших по предмету, где ты силён.</p><p><b>Безопасность:</b> до 18 лет оформляй всё с согласия родителей. Не бери «заработок» с предоплатой, ставками или крипто-схемами и никогда не давай свою карту или аккаунт «для переводов»: это дроп-схема, по ней наступает уголовная ответственность.</p>`)}
+const TN=['Опрос','План','Архыз-день','Стиль','Волосы','Жизнь','Сон/вес','Настройки'];
+function tabsR(){$('#tabs').innerHTML=TN.map((n,i)=>`<button class="${tab==i?'on':''}" onclick="tab=${i};render()">${n}</button>`).join('')}
+function render(){tabsR();$('#main').innerHTML=[opros,plan,day,style,hair,life,body,sets][tab]()}
+const fmt=t=>t.includes('|')?'<ol>'+t.split('|').map(x=>`<li>${x}</li>`).join('')+'</ol>':t;
+Object.assign(X,{
+push:["Отжимания","Упор лёжа: руки чуть шире плеч, тело одной прямой линией.|Согни локти под 45° к корпусу и опусти грудь почти до пола.|Выжми вверх, не прогибая поясницу и не задирая таз.|Вниз вдох, вверх выдох.","r"],
+dec:["Отжимания, ноги на стуле","Ноги на сиденье стула, руки на полу чуть шире плеч.|Опускай грудь к полу, локти под 45°.|Выжми вверх без рывка. Чем выше ноги, тем сильнее работает верх груди.","r"],
+dia:["Отжимания ромбиком","Ладони под центром груди, пальцы образуют ромб.|Опускай грудь к рукам, локти идут вдоль корпуса.|Вверх до выпрямления рук. Сильнее работает трицепс.","r"],
+pau:["Отжимания с паузой","Обычное отжимание, но внизу замри на 2 секунды у пола.|Вверх без рывка и без помощи тазом.|Повторов меньше, зато грудь работает сильнее.","r"],
+dip:["Обратные отжимания от стула","Сядь на край стула, ладони рядом с бёдрами, ноги вытянуты вперёд.|Сдвинь таз вперёд за край и опускайся, сгибая локти до 90°.|Спина близко к стулу, локти смотрят назад.|Выпрямись усилием трицепса.","r"],
+bpress:["Резинка: жим лёжа на полу","Ляг на спину на пол, колени согнуты.|Проведи резинку под лопатками, концы возьми в кулаки у груди.|Выжми руки вверх до выпрямления, как со штангой.|Медленно, за 3 секунды, опусти локти почти до пола.|Ошибка: не отрывай плечи от пола и не разводи локти шире 45°.","r"],
+brow:["Резинка: тяга к поясу","Сядь на пол, ноги вперёд, резинка обхватывает стопы.|Спина прямая. Тяни концы к поясу, сводя лопатки.|Пауза 1 сек, вернись медленно.","r"],
+plank:["Планка","Упор на предплечья, локти под плечами.|Тело одной линией от макушки до пяток.|Пресс и ягодицы напряжены, поясница не провисает.|Дыши ровно и считай секунды.","t"],
+lr:["Подъёмы ног лёжа","Ляг на спину, ладони под таз, поясница прижата к полу.|Подними прямые ноги до 90°.|Медленно опусти, не касаясь пола пятками.|Если поясница отрывается, согни колени.","r"],
+bic:["Велосипед","Ляг на спину, руки у висков, ноги подняты.|Тянись локтем к противоположному колену, вторая нога выпрямлена.|Меняй сторону плавно, шею не дёргай.","t"],
+rc:["Обратные скручивания","Ляг на спину, колени согнуты на 90° и подняты над полом.|Подкрути таз вверх к рёбрам, отрывая его от пола.|Вниз медленно, ноги не раскачивай.","r"],
+vup:["V-подъёмы","Ляг на спину, руки вытянуты за головой.|Одновременно подними прямые ноги и корпус, тянись руками к стопам.|Опускайся медленно.","r"],
+hol:["«Лодочка»","Ляг на спину, поясница прижата к полу.|Подними руки и прямые ноги на 20 см над полом.|Держи позу, дыши ровно.","t"],
+mc:["Скалолаз","Упор лёжа на прямых руках, тело одной линией.|Быстро подтягивай колени к груди по очереди.|Таз не подпрыгивает, плечи над кистями.","t"]});
+Object.assign(P,{bpress:[[[15,62],[28,64],[70,64],[88,48],[100,64],[34,62],[30,42]],[[15,62],[28,64],[70,64],[88,48],[100,64],[29,44],[28,24]]],
+rc:[[[15,62],[28,64],[70,64],[78,42],[98,50],[45,64],[60,64]],[[15,62],[28,64],[68,56],[64,34],[84,26],[45,64],[60,64]]],
+sq:[[[60,12],[60,24],[60,44],[60,58],[60,68],[60,34],[60,46]],[[68,24],[62,34],[45,56],[72,52],[62,68],[78,36],[92,38]]]});
+Object.assign(PM,{bpress:'bpress',rc:'rc',sq:'sq'});
+const F=['Мышцы растут во сне: 8 часов важнее лишнего подхода.','Стакан воды за 30 минут до тренировки.','Белок в каждый приём пищи: яйца, творог, курица.','5 минут растяжки после тренировки снижают крепатуру.','Плечи назад, подбородок параллельно полу: осанка добавляет пару сантиметров роста.','Брекеты: чисти зубы после каждой еды.','Кубики пресса зависят от питания не меньше, чем от тренировок.','Фото раз в неделю в одном свете показывают прогресс лучше зеркала.'];
+const LVN=['Котёнок','Тигрёнок','Тигр','Альфа','Легенда'],TH=[0,40,120,260,480];
+const mefix=m=>{const w='stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round"',eye=m=='sleepy'?`<path d="M32 59q8 5 16 0M72 59q8 5 16 0" ${w}/>`:m=='fire'?`<path d="M32 61q8-9 16 0M72 61q8-9 16 0" ${w}/>`:'<circle cx="40" cy="58" r="5" fill="#fff"/><circle cx="80" cy="58" r="5" fill="#fff"/><circle cx="41" cy="59" r="2.6" fill="#111"/><circle cx="81" cy="59" r="2.6" fill="#111"/>',
+ br=m=='sad'?'M30 46l18-4M90 46l-18-4':'M30 42l18 6M90 42l-18 6',mo=m=='fire'?'M48 86q12 12 24 0z" fill="#7a0f1a':m=='sad'?'M50 90q10-8 20 0" fill="none':'M50 86q10 8 20 0" fill="none';
+ return `<svg width="104" height="96" viewBox="0 0 120 110"><circle cx="26" cy="24" r="15" fill="#111"/><circle cx="94" cy="24" r="15" fill="#111"/><ellipse cx="60" cy="62" rx="48" ry="42" fill="#ff8a24"/><ellipse cx="60" cy="80" rx="30" ry="21" fill="#fff"/><path d="M52 24l3 14M60 21v17M68 24l-3 14M14 56l13 4M16 70l13-3M106 56l-13 4M104 70l-13-3" stroke="#111" stroke-width="4" stroke-linecap="round"/><ellipse cx="40" cy="58" rx="11" ry="13" fill="#111" transform="rotate(20 40 58)"/><ellipse cx="80" cy="58" rx="11" ry="13" fill="#111" transform="rotate(-20 80 58)"/>${eye}<path d="${br}" stroke="#111" stroke-width="4" stroke-linecap="round"/><path d="M53 74h14l-7 8z" fill="#111"/><path d="${mo}" stroke="#111" stroke-width="3" stroke-linecap="round"/></svg>`};
+const tot=L=>L&&L.p?L.p.ex.reduce((a,e)=>a+e.n,0):0,dn=L=>L&&L.d?Object.keys(L.d).length:0;
+function stats(){let xp=0;Object.values(S.log).forEach(L=>xp+=dn(L));xp+=Object.keys(S.body).length*5+S.ph.length*5;let lv=0;TH.forEach((t,i)=>{if(xp>=t)lv=i});
+ const nx=TH[lv+1],pr=nx?Math.round((xp-TH[lv])/(nx-TH[lv])*100):100;let st=0;const t0=idx(today);
+ for(let i=Math.min(t0,S.days-1);i>=0;i--){const L=S.log[addD(i)],ok=CY[i%6]=='R'||(tot(L)&&dn(L)>=tot(L)*.8);if(ok)st++;else if(i!=t0)break}return{xp,lv,pr,st}}
+function mood(){const L=S.log[today],sl=Object.keys(S.body).sort().map(k=>S.body[k].s).filter(Boolean).slice(-1)[0],y=idx(today)-1;
+ if(tot(L)&&dn(L)>=tot(L))return['fire','Тренировка закрыта! Ты зверь. Белок и сон, и всё будет.'];
+ if(sl&&+sl<7)return['sleepy','Ты мало спал ('+sl+' ч). Без героизма, ляг пораньше.'];
+ if(y>=0&&y<S.days&&CY[y%6]!='R'&&!dn(S.log[addD(y)]))return['sad','Вчера пропустили. Ничего, сегодня вернёмся в ритм.'];
+ return['ok','Привет, Максим! '+F[new Date().getDate()%F.length]]}
+function hd(){const[m,msg]=mood(),s=stats(),n=Math.max(0,Math.round((new Date(S.trip+'T00:00')-new Date(today+'T00:00'))/864e5));
+ return `<div class="hd">${mefix(m)}<div style="flex:1"><div class="lg">MFS · МЕФИКС</div><div class="bub">${msg}</div><div class="st"><div>Ур. ${s.lv+1} ${LVN[s.lv]}<div class="bar"><i style="width:${s.pr}%"></i></div></div><div>Серия ${s.st} дн.<div class="bar"><i style="width:${Math.min(100,s.st*14)}%"></i></div></div><div>До Архыза ${n} дн.<div class="bar"><i style="width:${Math.max(0,100-n*5)}%"></i></div></div></div></div></div>`}
+function plan(){return `<div class="card"><b>План до Архыза</b><p class="m">До 21 октября нагрузка максимальная, с 22-го мягче. Тап по дню открывает его.</p>`+[...Array(S.days)].map((_,i)=>{const d=addD(i),L=S.log[d],t=CY[i%6],ok=tot(L)&&dn(L)>=tot(L),tag=d>=S.trip?'Архыз':t=='R'?'отдых':'МАКС';
+ return `<div class="day ${d==today?'t':''}" onclick="cur='${d}';tab=0;render();scrollTo(0,0)"><span>${fd(d)} · ${NM[t]}</span><span class="m">${tag} ${ok?'✅':''}</span></div>`}).join('')+'</div>'}
+let DT=today,ED=-1;const QK=['Школа','Волейбол','Уроки','Тренировка','Курс','Брекеты','Общение','Подработка'],SCH={1:['08:00',400],2:['08:00',350],3:['08:50',300],4:['08:50',350],5:['08:00',300]};
+const mn=t=>{const[h,m]=t.split(':');return +h*60+ +m},hm=n=>String(Math.floor(n/60)%24).padStart(2,'0')+':'+String(n%60).padStart(2,'0'),qt=s=>String(s).replace(/"/g,'&quot;');
+function day2(){const A=S.pl[DT]||[],L=A.map((x,i)=>({...x,i})).sort((a,b)=>mn(a.a)-mn(b.a)),w=mn(S.wake);let sl=mn(S.sleep);if(sl<=w)sl+=1440;const aw=sl-w,
+ bz=L.reduce((s,x)=>s+x.m,0),ov=L.some((x,i)=>i&&mn(x.a)<mn(L[i-1].a)+L[i-1].m),sh=(w+1440-sl)/60,e=ED>=0&&A[ED]?A[ED]:{n:'',a:'16:00',m:60},
+ sg=x=>`<div style="position:absolute;left:${(mn(x.a)-w)/aw*100}%;width:${x.m/aw*100}%;top:0;bottom:0;background:${x.x?'#35c46b':/Трен/.test(x.n)?'#ff7a1a':'#6b5a4c'}"></div>`;
+ return `<div class="card row" style="justify-content:space-between;align-items:center"><button class="chip" onclick="dv(-1)">‹</button><b>${fd(DT)}</b><button class="chip" onclick="dv(1)">›</button></div>
+ <div class="card"><b>Мой день</b><div style="position:relative;height:30px;background:#0e0a08;border-radius:8px;overflow:hidden;margin:10px 0">${L.map(sg).join('')}</div>
+ <div class="m">Занято ${(bz/60).toFixed(1)} ч, свободно ${Math.max(0,(aw-bz)/60).toFixed(1)} ч. Сон ${sh.toFixed(1)} ч${sh<8?': подростку нужно 8–10 ч':''}.${ov?' <b class="big">Задачи пересекаются.</b>':''}</div>
+ ${L.map(x=>`<div class="day"><span onclick="tk(${x.i})">${x.x?'✅':'⬜'} ${x.a}–${hm(mn(x.a)+x.m)} ${x.n}</span><span><b onclick="ed(${x.i})">✎</b> <b onclick="dl(${x.i})">✕</b></span></div>`).join('')||'<p class="m">Пусто. Добавь задачи ниже.</p>'}</div>
+ <div class="card"><b>${ED>=0?'Изменить задачу':'Новая задача'}</b><div class="row">${QK.map(q=>`<button class="chip" onclick="$('#xn').value='${q}'">${q}</button>`).join('')}</div>
+ <input id="xn" placeholder="Название" value="${qt(e.n)}"><div class="row"><div style="flex:1">Начало<input id="xa" type="time" value="${e.a}"></div><div style="flex:1">Минут<select id="xm">${[15,30,45,60,90,120,180].map(v=>`<option ${v==e.m?'selected':''}>${v}</option>`).join('')}</select></div></div>
+ <button class="btn" onclick="pk2()">${ED>=0?'Сохранить':'Добавить'}</button><div class="row"><button class="chip" onclick="fs()">Заполнить школой</button><button class="chip" onclick="cp()">Копировать на завтра</button><button class="chip" onclick="cl()">Очистить день</button></div></div>`}
+function dv(n){const d=new Date(DT+'T00:00');d.setDate(d.getDate()+n);DT=iso(d);ED=-1;render()}
+function pk2(){const n=$('#xn').value.trim();if(!n)return;const x={n,a:$('#xa').value,m:+$('#xm').value,x:0},A=S.pl[DT]=S.pl[DT]||[];if(ED>=0&&A[ED]){x.x=A[ED].x;A[ED]=x}else A.push(x);ED=-1;save();render()}
+function ed(i){ED=i;render()}function dl(i){S.pl[DT].splice(i,1);ED=-1;save();render()}function tk(i){S.pl[DT][i].x^=1;save();render()}
+function fs(){const s=SCH[new Date(DT+'T00:00').getDay()];if(!s)return alert('В выходной школы нет');const A=(S.pl[DT]||[]).filter(x=>x.n!='Школа');A.push({n:'Школа',a:s[0],m:s[1],x:0});S.pl[DT]=A;save();render()}
+function cp(){const d=new Date(DT+'T00:00');d.setDate(d.getDate()+1);S.pl[iso(d)]=(S.pl[DT]||[]).map(x=>({...x,x:0}));save();dv(1)}
+function cl(){if(confirm('Очистить день?')){S.pl[DT]=[];save();render()}}
+let BD=today,PT='Пресс';
+function prog(){const b=S.body[BD]||{},ks=Object.keys(S.body).sort(),wk=ks.filter(k=>S.body[k].w),lw=wk[wk.length-1],gap=lw?Math.round((new Date(today+'T00:00')-new Date(lw+'T00:00'))/864e5):99,pts=wk.map(k=>+S.body[k].w),s=stats();
+ const spark=pts.length>1?(()=>{const lo=Math.min(...pts),r=(Math.max(...pts)-lo)||1;return `<svg viewBox="0 0 200 50" width="100%"><polyline fill="none" stroke="#ff7a1a" stroke-width="3" points="${pts.map((v,i)=>(i/(pts.length-1)*200).toFixed(1)+','+(46-(v-lo)/r*42).toFixed(1)).join(' ')}"/></svg>`})():'';
+ const ph=S.ph.filter(p=>p.t==PT).sort((a,c)=>a.id-c.id),bad=[['Первая тренировка',s.xp>0],['Замер сделан',ks.length>0],['Фото прогресса',S.ph.length>0],['Серия 3 дня',s.st>=3],['Серия 7 дней',s.st>=7],['Уровень Тигр',s.lv>=2]],
+ inp=(id,l,v,st)=>`<div style="flex:1;min-width:45%">${l}<input id="${id}" type="number" step="${st||'0.1'}" value="${v||''}"></div>`;
+ return `<div class="card"><b>Замеры</b>${gap>=7?'<p class="big">Пора на замер: раз в неделю, утром, натощак.</p>':'<p class="m">Вес, рост и обхваты раз в неделю, утром, в одно время.</p>'}
+ <input type="date" id="bd" value="${BD}" onchange="BD=this.value;render()"><div class="row">${inp('bw','Вес, кг',b.w)}${inp('bh','Рост, см',b.h)}${inp('bwa','Талия, см',b.wa)}${inp('bch','Грудь, см',b.ch)}${inp('bbi','Бицепс, см',b.bi)}${inp('bs','Сон, ч',b.s,'0.5')}</div><button class="btn" onclick="sb2()">Сохранить</button>${spark}</div>
+ <div class="card"><b>История</b>${ks.slice(-12).reverse().map(k=>{const x=S.body[k];return `<div class="day"><span>${fd(k)}: ${x.w||'—'} кг, ${x.h||'—'} см${x.wa?', талия '+x.wa:''}${x.s?', сон '+x.s:''}</span><span><b onclick="edB('${k}')">✎</b> <b onclick="delBd('${k}')">✕</b></span></div>`}).join('')||'<p class="m">Пока пусто</p>'}</div>
+ <div class="card"><b>Фотоотчёт</b><div class="row">${['Пресс','Спереди','Сбоку','Образ'].map(t=>`<button class="chip ${PT==t?'on':''}" onclick="PT='${t}';render()">${t}</button>`).join('')}</div><input type="file" accept="image/*" onchange="addPh(this)">
+ ${ph.length>1?`<div class="cmp"><div><img src="${ph[0].img}"><div class="m">Начало, ${fd(ph[0].d)}</div></div><div><img src="${ph[ph.length-1].img}"><div class="m">Сейчас, ${fd(ph[ph.length-1].d)}</div></div></div>`:'<p class="m">Добавь 2 фото, и появится сравнение. Снимай в одном свете и позе.</p>'}
+ <div class="gal">${ph.slice().reverse().map(p=>`<img src="${p.img}" onclick="delPh(${p.id})">`).join('')}</div><p class="m">Тап по фото удаляет его. Фото хранятся только в этом браузере.</p></div>
+ <div class="card"><b>Достижения</b><div class="row">${bad.map(([n,o])=>`<span class="chip badge ${o?'on':''}">${n}</span>`).join('')}</div></div>`}
+function sb2(){const g=i=>$('#'+i).value,d=g('bd');if(!d)return;S.body[d]={w:g('bw'),h:g('bh'),wa:g('bwa'),ch:g('bch'),bi:g('bbi'),s:g('bs')};BD=d;save();render()}
+function edB(k){BD=k;render();scrollTo(0,0)}function delBd(k){if(confirm('Удалить запись?')){delete S.body[k];save();render()}}
+function addPh(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);S.ph.push({id:Date.now(),d:today,t:PT,img:c.toDataURL('image/jpeg',.6)});if(!save())S.ph.pop();render()};im.src=r.result};r.readAsDataURL(f)}
+function delPh(id){if(confirm('Удалить фото?')){S.ph=S.ph.filter(p=>p.id!=id);save();render()}}
+const OC=['Плечи: шов лежит на плечевой кости','Длина: низ до середины ширинки или пояса','Грудь: ткань плотная, не облегает и не просвечивает','Цвета: тёмный низ и 1–2 цвета сверху','Обувь чистая и подходит к стилю','Выглажено, ярлыки сняты'];let OS=[];
+function oc(i){OS=OS.includes(i)?OS.filter(x=>x!=i):[...OS,i];render()}
+const sec=t=>`<h2>${t}</h2>`;
+function ask(){const k=Object.keys(S.body).sort().filter(k=>S.body[k].w).pop(),x=k?S.body[k]:{};
+ return `<div class="card"><b>Спросить Мефикса в нейросети</b><p class="m">Бесплатно: скопируй и вставь в любой чат (Claude, DeepSeek, Grok). Ключ нейросети в сайт не вшиваем: на GitHub его украдут.</p><textarea id="ak" rows="6">Я Максим, мне 16. Рост ${x.h||177} см, вес ${x.w||80} кг. Готовлюсь к поездке в Архыз 22–23 октября: дома тренирую грудь и пресс, есть резинка и стул. У меня брекеты, плоскостопие, очки. Помоги с вопросом: </textarea><button class="btn" onclick="$('#ak').select();navigator.clipboard&&navigator.clipboard.writeText($('#ak').value)">Скопировать</button></div>`}
+function sets2(){return `<div class="card"><b>Настройки</b><div class="m">Старт программы</div><input type="date" id="st" value="${S.start}"><div class="m">Дней в плане</div><input type="number" id="dy" value="${S.days}"><div class="m">Дата поездки (с неё нагрузка мягче)</div><input type="date" id="tr" value="${S.trip}">
+ <label><input type="checkbox" id="sbd" ${S.band?'checked':''} style="width:auto"> Есть резинка</label><br><label><input type="checkbox" id="sbr" ${S.bar?'checked':''} style="width:auto"> Есть турник</label><div class="m">Отдых между подходами, сек</div><input type="number" id="rs" value="${S.rest}">
+ <div class="row"><div style="flex:1">Подъём<input id="wk" type="time" value="${S.wake}"></div><div style="flex:1">Отбой<input id="sp" type="time" value="${S.sleep}"></div></div><button class="btn" onclick="ss2()">Сохранить</button>
+ <button class="chip" style="margin-top:12px" onclick="if(confirm('Стереть все данные?')){S=JSON.parse(JSON.stringify(D0));save();tab=0;cur=S.start;render()}">Сбросить всё</button></div>`}
+function ss2(){S.start=$('#st').value||S.start;S.days=+$('#dy').value||19;S.trip=$('#tr').value||S.trip;S.band=$('#sbd').checked;S.bar=$('#sbr').checked;S.rest=+$('#rs').value||60;S.wake=$('#wk').value;S.sleep=$('#sp').value;save();tab=0;cur=today<S.start?S.start:today;render();scrollTo(0,0)}
+function adv(){return sec('Образ')+`<div class="card"><b>Оценка образа</b><p class="m">Отметь, что выполнено. Это оценка одежды, а не тебя.</p>${OC.map((t,i)=>`<div class="day" onclick="oc(${i})"><span>${OS.includes(i)?'✅':'⬜'} ${t}</span></div>`).join('')}<p class="big">${Math.round(OS.length/OC.length*10)}/10</p></div>`+
+ dt('Разбор моих образов по фото',`<p><b>Полосатое поло + чёрные джинсы + ASICS: лучший вариант.</b> Плечи сидят, рукав на середине бицепса, толстые полосы не облегают грудь, тёмный низ и серые кроссовки одного стиля. Сними ярлык у воротника.</p><p><b>Белое поло:</b> хорошо с ремнём и заправкой спереди. Воротник-стойка выглядит случайно, лучше обычный.</p><p><b>Самые широкие чёрные брюки:</b> слишком объёмные и длинные, закрывают кроссовки и «съедают» рост. Бери прямые или слегка свободные, чтобы низ касался верха кроссовок.</p><p>Заправляй поло наполовину спереди и носи ремень: видна талия, грудь не в центре внимания. Для фото держи камеру на уровне груди и свет спереди.</p>`)+style()+sec('Причёска')+hair()+sec('Жизнь')+life()+sec('Мефикс')+
+ dt('Почему нет оценки лица',`<p>Мефикс не ставит лицу баллы и не называет тиры вроде HTN. Это интернет-шкалы: они ничего реально не измеряют, а лицо в 16 лет ещё меняется. Зато у Мефикса есть то, что ты правда улучшаешь: фото и замеры, форма, осанка, причёска, одежда и уход за кожей.</p>`)+ask()+sec('Настройки')+sets2()}
+const TB=[['🏋️','Сегодня'],['📅','План'],['🗓️','День'],['📈','Прогресс'],['💡','Советы']];
+function tabsR(){$('#tabs').innerHTML=TB.map((n,i)=>`<button class="${tab==i?'on':''}" onclick="tab=${i};render();scrollTo(0,0)"><b>${n[0]}</b>${n[1]}</button>`).join('')}
+function render(){tabsR();$('#hd').innerHTML=hd();$('#main').innerHTML=[opros,plan,day2,prog,adv][tab]()}
+
+render();
+</script></body></html>
